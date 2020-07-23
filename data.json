@@ -1,0 +1,1 @@
+{"lights": [{"x": 20.0, "y": 30.0, "z": 20.0, "intensity": 2.0}], "spheres": [{"x": 0.0, "y": -5.0, "z": -10.0, "radius": 3.0, "material": "red_rubber"}, {"x": 0.0, "y": -10.0, "z": -25.0, "radius": 5.0, "material": "red_rubber"}]}
