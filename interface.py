@@ -4,7 +4,7 @@ import subprocess
 from tkinter import (ACTIVE, BOTH, CENTER, FLAT, GROOVE, LEFT, RAISED, RIDGE,
 					 RIGHT, SUNKEN, Button, Entry, Frame, IntVar, Label,
 					 Listbox, OptionMenu, Radiobutton, StringVar, Tk,
-					 messagebox)
+					 messagebox, Toplevel)
 from typing import *
 from accessify import private
 from PIL import Image
@@ -51,6 +51,8 @@ class CreateSphereInterface(Frame):
 		geometry = self.__generate_geometry__(size)
 		self.parent.geometry(geometry)
 		self.pack_interface_items()
+		self.materials = ['red_rubber', 'glass', 'mirrow', 'ivory']
+
 
 	def pack_interface_items(self) -> None:
 		self.parent.title('Add sphere')
@@ -118,10 +120,11 @@ class CreateSphereInterface(Frame):
 		choose_material_lable = Label(
 			self.parent, text='Choose a material:', width=32, height=1, font="Courier 14")
 		choose_material_lable.place(x=10, y=200)
-		self.materials = ('red_rubber', 'glass', 'mirrow')
 		self.material_index = IntVar()
 		self.radiobuttons = list()
 		y = 190
+		self.materials = ['red_rubber', 'glass', 'mirrow', 'ivory']
+
 		for index, material in enumerate(self.materials):
 			y += 50
 			temp_button = Radiobutton(self.parent, text=material, value=index, variable=self.material_index,
@@ -132,7 +135,7 @@ class CreateSphereInterface(Frame):
 	def pack_add_sphere_button(self) -> None:
 		button = Button(self.parent, text='add sphere', width=17, height=3, bg='#F1E6C1',
 						fg='#3F6A8A', font="Courier 14", relief=FLAT, command=self.add_sphere_callback)
-		button.place(x=100, y=400)
+		button.place(x=100, y=470)
 
 	def add_sphere_callback(self) -> None:
 		succes = self.check_all_fields()
@@ -143,6 +146,7 @@ class CreateSphereInterface(Frame):
 			y = float(y)
 			z = float(z)
 			radius = float(radius)
+			print(material)
 			self.spheres.append(Sphere(x, y, z, radius, material))
 			self.update_spheres_lable()
 			self.parent.destroy()
@@ -517,9 +521,9 @@ class SpheresVisualizatorInterface(Frame):
 
 	def create_sphere_callback(self) -> None:
 		if len(self.spheres) < 8:
-			root_create_sphere = Tk()
+			root_create_sphere = Toplevel()
 			create_sphere_app = CreateSphereInterface(
-				root_create_sphere, (380, 500), self.spheres, self.spheres_text)
+				root_create_sphere, (380, 580), self.spheres, self.spheres_text)
 			create_sphere_app.run()
 		else:
 			_ = Tk()
@@ -528,7 +532,7 @@ class SpheresVisualizatorInterface(Frame):
 
 	def create_light_callback(self) -> None:
 		if len(self.lights) < 8:
-			root_create_light = Tk()
+			root_create_light = Toplevel()
 			create_light_app = CreateLightInterface(
 				root_create_light, (380, 500), self.lights, self.lights_text)
 			create_light_app.run()
@@ -543,7 +547,7 @@ class SpheresVisualizatorInterface(Frame):
 			_.withdraw()
 			messagebox.showerror("Error", "No lights to be removed!")
 		else:
-			root_destroy_light = Tk()
+			root_destroy_light = Toplevel()
 			destroy_light_app = DestroyItem(
 				root_destroy_light, (380, 500), self.lights, self.lights_text, 'Light')
 			destroy_light_app.run()
@@ -555,7 +559,7 @@ class SpheresVisualizatorInterface(Frame):
 			_.withdraw()
 			messagebox.showerror("Error", "No spheres to be removed!")
 		else:
-			root_destroy_sphere = Tk()
+			root_destroy_sphere = Toplevel()
 			destroy_sphere_app = DestroyItem(
 				root_destroy_sphere, (380, 500), self.spheres, self.spheres_text, 'Sphere')
 			destroy_sphere_app.run()
